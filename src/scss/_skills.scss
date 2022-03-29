@@ -1,0 +1,65 @@
+.skills {
+  .container {
+    max-width: 745px;
+    width: 90%;
+    margin: 0 auto;
+    .items {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr;
+      place-items: center;
+      .item {
+        h3 {
+          font-weight: 600;
+          font-size: 1.1em;
+          text-align: center;
+        }
+        .cards {
+          display: flex;
+          max-width: 248.3px;
+          overflow-x: auto;
+          margin-top: 16px;
+          padding-top: 5px;
+          .card {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            padding: 2px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            overflow: hidden;
+            transition: margin-top .2s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: saturate(0.8);
+
+            &:nth-child(1n+2) {
+              margin-left: -16px;
+            }
+            &:hover {
+              z-index: 1;
+              margin-top: -5px;
+              filter: saturate(1);
+            }
+          }
+          &::-webkit-scrollbar {
+            width: 20px;
+            height: 6px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .skills {
+    .container {
+      .items {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}
