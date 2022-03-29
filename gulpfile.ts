@@ -3,7 +3,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import rename from 'gulp-rename'
 import sass from 'gulp-sass'
 import typescript from 'gulp-typescript'
-import minify from 'gulp-minify'
+import minifyHTML from 'gulp-htmlmin'
 
 const tsProject = typescript.createProject('tsconfig.json')
 
@@ -23,6 +23,7 @@ gulp.task('ts', () => {
 
 gulp.task('html', () => {
   return gulp.src('src/*.html')
+    .pipe(minifyHTML({ collapseWhitespace: true }))
     .pipe(gulp.dest('.', {sourcemaps: true }))
 })
 
