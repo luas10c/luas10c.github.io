@@ -18,8 +18,11 @@
           display: flex;
           max-width: 248.3px;
           overflow-x: auto;
-          margin-top: 16px;
-          padding-top: 5px;
+          padding: 0 36px;
+          min-height: 74px;
+          padding-top: 2px;
+          height: auto;
+          align-items: flex-end;
           .card {
             flex-shrink: 0;
             width: 42px;
@@ -27,14 +30,14 @@
             padding: 2px;
             border-radius: 4px;
             margin-bottom: 4px;
-            overflow: hidden;
+            box-sizing: border-box;
             transition: margin-top .2s ease-in-out;
             cursor: pointer;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             filter: saturate(0.8);
-
             &:nth-child(1n+2) {
               margin-left: -16px;
             }
@@ -42,6 +45,43 @@
               z-index: 1;
               margin-top: -5px;
               filter: saturate(1);
+            }
+
+            &:hover > .tooltip {
+              opacity: 1;
+            }
+
+            .tooltip {
+              position: absolute;
+              top: -24px;
+              left: -50%;
+              opacity: 0;
+              span {
+                position: relative;
+                background-color: var(--primary-color);
+                font-size: .875em;
+                text-transform: uppercase;
+                color: #FFFFFF;
+                height: 18px;
+                padding: 0 8px;
+                display: flex;
+                align-items: center;
+                border-radius: 4px;
+                font-weight: 600;
+  
+                &::before {
+                  content: '';
+                  display: block;
+                  z-index: -9999;
+                  width: 9px;
+                  height: 9px;
+                  background-color: var(--primary-color);
+                  position: absolute;
+                  left: 50%;
+                  bottom: -1.5px;
+                  transform: rotate(45deg);
+                }
+              }
             }
           }
           &::-webkit-scrollbar {

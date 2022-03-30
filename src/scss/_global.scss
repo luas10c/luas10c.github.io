@@ -39,3 +39,10 @@ a {
   position: absolute;
   left: -1px;
 }
+
+@mixin prefix($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    -#{$prefix}-#{$property}: $value;
+  }
+  #{$property}: $value
+}
