@@ -4,89 +4,81 @@
     width: 90%;
     margin: 0 auto;
     .items {
-      display: grid;
-      gap: 24px;
-      grid-template-columns: 1fr;
-      place-items: center;
+      display: flex;
+      gap: 18px;
+      flex-direction: column;
+      justify-content: center;
       .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         h3 {
           font-weight: 600;
           font-size: 1.1em;
           text-align: center;
+          margin-bottom: 16px;
         }
         .cards {
           display: flex;
-          max-width: 248.3px;
-          overflow-x: auto;
-          padding: 0 36px;
-          min-height: 74px;
-          padding-top: 2px;
-          height: auto;
-          align-items: flex-end;
+          gap: 6px;
           .card {
-            flex-shrink: 0;
-            width: 42px;
-            height: 42px;
-            padding: 2px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            box-sizing: border-box;
-            transition: margin-top .2s ease-in-out;
-            cursor: pointer;
-            position: relative;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            filter: saturate(0.8);
-            &:nth-child(1n+2) {
-              margin-left: -16px;
+            flex-direction: column-reverse;
+            position: relative;
+            svg {
+              width: 36px;
+              height: 36px;
+              border-radius: 4px;
+              padding: 6px;
+              box-sizing: border-box;
+
+              transition: transform .2s ease-in-out;
             }
-            &:hover {
+            &::after {
+              content: attr(data-tooltip);
+              background-color: var(--primary-color);
+              color: #FFFFFF;
+              padding: 6px 12px;
+              border-radius: 4px;
+              line-height: 1;
+              text-align: center;
+              text-transform: uppercase;
+              font-family: sans-serif;
+              font-weight: 600;
+              font-size: .775rem;
+              word-break: keep-all;
               z-index: 1;
-              margin-top: -5px;
-              filter: saturate(1);
-            }
 
-            &:hover > .tooltip {
-              opacity: 1;
-            }
-
-            .tooltip {
-              position: absolute;
-              top: -24px;
-              left: -50%;
               opacity: 0;
-              span {
-                position: relative;
-                background-color: var(--primary-color);
-                font-size: .875em;
-                text-transform: uppercase;
-                color: #FFFFFF;
-                height: 18px;
-                padding: 0 8px;
-                display: flex;
-                align-items: center;
-                border-radius: 4px;
-                font-weight: 600;
-  
-                &::before {
-                  content: '';
-                  display: block;
-                  z-index: -9999;
-                  width: 9px;
-                  height: 9px;
-                  background-color: var(--primary-color);
-                  position: absolute;
-                  left: 50%;
-                  bottom: -1.5px;
-                  transform: rotate(45deg);
-                }
+              transition: opacity .2s ease-in-out;
+
+              z-index: 2;
+              position: absolute;
+              top: -38px;
+              left: -8px;
+            }
+            
+            &::before {
+              content: '';
+              border: 6px solid transparent;
+              border-top-color: var(--primary-color);
+
+              opacity: 0;
+              transition: opacity .2s ease-in-out;
+
+              position: absolute;
+              top: -14px;
+              left: 12px;
+            }
+
+            &:hover{
+              &::before, &::after {
+                opacity: 1;
+              }
+              svg {
+                transform: translate3d(0, -8px, 0);
               }
             }
-          }
-          &::-webkit-scrollbar {
-            width: 20px;
-            height: 6px;
           }
         }
       }
