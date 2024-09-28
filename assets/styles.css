@@ -1,0 +1,120 @@
+:root {
+  --amethyst-50: #F4F0FA;
+  --amethyst-100: #E9E0F5;
+  --amethyst-200: #D2C1EB;
+  --amethyst-300: #BEA7E2;
+  --amethyst-400: #A888D8;
+  --amethyst-500: #9169CE;
+  --amethyst-600: #7543C2;
+  --amethyst-700: #5E339E;
+  --amethyst-800: #452673;
+  --amethyst-900: #2E194D;
+  --amethyst-950: #22133A;
+
+  --mantis-50: #EFFAF0;
+  --mantis-100: #DCF4DE;
+  --mantis-200: #BDEAC0;
+  --mantis-300: #9AE09E;
+  --mantis-400: #7BD681;
+  --mantis-500: #57CB5F;
+  --mantis-600: #3ABB42;
+  --mantis-700: #2E9435;
+  --mantis-800: #237128;
+  --mantis-900: #174A1A;
+  --mantis-950: #123A15;
+
+  --woodsmoke-50: #E7E7E9;
+  --woodsmoke-100: #DDDDDF;
+  --woodsmoke-200: #C5C5C9;
+  --woodsmoke-300: #B0B0B5;
+  --woodsmoke-400: #99999F;
+  --woodsmoke-500: #818188;
+  --woodsmoke-600: #6A6A71;
+  --woodsmoke-700: #57575C;
+  --woodsmoke-800: #404044;
+  --woodsmoke-900: #2A2A2D;
+  --woodsmoke-950: #202022;
+
+  --font-text: "Roboto", sans-serif;
+}
+
+body {
+  background-color: var(--woodsmoke-950);
+  font-family: var(--font-text);
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  background-color: transparent;
+}
+
+h1,h2,h3 {
+  margin: 0;
+}
+
+h1,h2,h3,span {
+  line-height: 1;
+}
+
+.transition-colors {
+  transition: background-color .2s ease-in-out;
+}
+
+.container {
+  max-width: 1288px;
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.info h3 {
+  color: var(--amethyst-400);
+  font-weight: 200;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.info span {
+  color: var(--woodsmoke-400);
+  font-size: 2.5rem;
+}
+
+.info h3, .info span {
+  text-transform: uppercase;
+}
+
+.socials li a {
+  color: var(--woodsmoke-400);
+
+  transition: color .2s ease;
+}
+
+.socials li a:hover {
+  color: var(--amethyst-400);
+}
