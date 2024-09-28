@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+
+  --container-8xl: 88rem;
+
+  --color-woodsmoke-50: #f1f1f1;
+  --color-woodsmoke-100: oklch(0.913 0.001 287.23);
+  --color-woodsmoke-200: oklch(0.827 0.001 287.13);
+  --color-woodsmoke-300: oklch(0.742 0.001 287.03);
+  --color-woodsmoke-400: oklch(0.664 0.003 286.6);
+  --color-woodsmoke-500: oklch(0.577 0.005 286.42);
+  --color-woodsmoke-600: oklch(0.49 0.005 286.35);
+  --color-woodsmoke-700: oklch(0.406 0.003 286.41);
+  --color-woodsmoke-800: oklch(0.318 0.004 286.31);
+  --color-woodsmoke-900: oklch(0.232 0.004 286.17);
+  --color-woodsmoke-950: oklch(0.192 0.002 286.33);
+
+  --color-lime-50: oklch(0.989 0.017 128.55);
+  --color-lime-100: oklch(0.97 0.057 127.7);
+  --color-lime-200: oklch(0.937 0.129 127.54);
+  --color-lime-300: oklch(0.911 0.169 127.14);
+  --color-lime-400: oklch(0.8 0.148 127.05);
+  --color-lime-500: oklch(0.688 0.127 127.21);
+  --color-lime-600: oklch(0.577 0.107 127.23);
+  --color-lime-700: oklch(0.468 0.087 127.01);
+  --color-lime-800: oklch(0.358 0.067 127.19);
+  --color-lime-900: oklch(0.248 0.046 127);
+  --color-lime-950: oklch(0.195 0.036 128.57);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply bg-woodsmoke-100 text-woodsmoke-950 dark:bg-woodsmoke-950 dark:text-woodsmoke-100 min-h-screen antialiased;
+}
