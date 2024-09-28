@@ -1,0 +1,24 @@
+---
+import MainLayout from '#/layouts/main.astro'
+
+import Button from '#/components/button.astro'
+---
+<MainLayout>
+  <section class="h-screen space-x-4 flex flex-col items-center justify-center">
+    <div class="space-y-4">
+      <div class="flex gap-4 flex-col items-center justify-center">
+        <div class="bg-apple-900 size-16 rounded-full flex items-center justify-center border border-apple-700">
+          <span class="font-semibold text-apple-400 text-4xl">L</span>
+        </div>
+        <h2 class="font-semibold text-3xl text-center text-woodsmoke-200">Luciano A.</h2>
+        <span class="text-woodsmoke-400">Software Enginner at freelancer</span>
+      </div>
+      <div class="flex gap-4">
+        <Button class="px-4 py-1 font-semibold">Github</Button>
+        <Button class="px-4 py-1 font-semibold">Linkedin</Button>
+        <Button class="px-4 py-1 font-semibold">Stackoverflow</Button>
+        <Button class="px-4 py-1 font-semibold">Codepen</Button>
+      </div>
+    </div>
+  </section>
+</MainLayout>
