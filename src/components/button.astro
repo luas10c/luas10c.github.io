@@ -1,0 +1,12 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+import { cn } from '#/utils/cn'
+
+interface Props extends HTMLAttributes<'button'> {}
+
+const {  class: className, ...rest } = Astro.props
+---
+<button type="button" class={cn("w-full cursor-pointer", className)} {...rest}>
+  <slot />
+</button>
