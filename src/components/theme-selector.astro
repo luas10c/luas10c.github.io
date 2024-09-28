@@ -1,0 +1,33 @@
+---
+import moon from '#/assets/moon.svg?raw'
+import sun from '#/assets/sun.svg?raw'
+import computer from '#/assets/computer.svg?raw'
+
+const themes = [moon, sun, computer]
+---
+<div class="theme-selector">
+  <ul>
+    {themes.map((item) => {
+      return (
+        <li>
+          <button type="button">
+            <Fragment set:html={item} />
+          </button>
+        </li>
+      )
+    })}
+  </ul>
+</div>
+
+<style lang="scss">
+  @use "../layouts/colors" as *;
+
+
+  div.theme-selector {
+    background-color: $eucalyptus-500;
+
+    ul {
+      display: flex;
+    }
+  }
+</style>

@@ -1,0 +1,39 @@
+@use "./colors" as *;
+@use './fonts' as *;
+
+body {
+  background-color: $woodsmoke-950;
+  font-family: $inter;
+  height: 100vh;
+  color: #FFFFFF;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, ul {
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
