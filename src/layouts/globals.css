@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-serif: "Instrument Serif", serif;
+
+  --container-8xl: 88rem;
+
+  --color-midnight-50:  oklch(0.93 0.03 248);
+  --color-midnight-100: oklch(0.89 0.05 248);
+  --color-midnight-200: oklch(0.83 0.09 248);
+  --color-midnight-300: oklch(0.75 0.14 248);
+  --color-midnight-400: oklch(0.64 0.19 249);
+  --color-midnight-500: oklch(0.52 0.24 255);
+  --color-midnight-600: oklch(0.47 0.29 260);
+  --color-midnight-700: oklch(0.42 0.27 260);
+  --color-midnight-800: oklch(0.36 0.24 260);
+  --color-midnight-900: oklch(0.28 0.20 260);
+  --color-midnight-950: oklch(0.12 0.08 260);
+
+  --color-concrete-50:  oklch(0.985 0 0);
+  --color-concrete-100: oklch(0.96  0 0);
+  --color-concrete-200: oklch(0.92  0 0);
+  --color-concrete-300: oklch(0.86  0 0);
+  --color-concrete-400: oklch(0.74  0 0);
+  --color-concrete-500: oklch(0.60  0 0);
+  --color-concrete-600: oklch(0.50  0 0);
+  --color-concrete-700: oklch(0.41  0 0);
+  --color-concrete-800: oklch(0.32  0 0);
+  --color-concrete-900: oklch(0.23  0 0);
+  --color-concrete-950: oklch(0.14  0 0);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply bg-midnight-950 text-white min-h-screen antialiased;
+}

@@ -1,0 +1,18 @@
+---
+import { tv } from 'tailwind-variants'
+import type { HTMLAttributes } from 'astro/types'
+
+import { cn } from '#/utils/cn'
+
+const variants = tv({
+  base: 'cursor-pointer bg-woodsmoke-900 hover:bg-woodsmoke-800 rounded flex items-center justify-center transition-colors',
+  variants: {}
+})
+
+interface Props extends HTMLAttributes<'button'> {}
+
+const {  class: className, ...rest } = Astro.props
+---
+<button type="button" class={cn(variants(), className)} {...rest}>
+  <slot />
+</button>

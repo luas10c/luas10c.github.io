@@ -1,0 +1,36 @@
+---
+import globals from './globals.css?url'
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Transformo ideias em experiências digitais memoráveis. Sou um desenvolvedor apaixonado por inovação, especializado em criar soluções que combinam tecnologia de ponta com design inteligente. Meu foco é desenvolver produtos eficientes, escaláveis e visualmente impactantes, sempre buscando entregar valor real aos usuários e aos negócios."
+    />
+    <meta
+      name="keywords"
+      content="desenvolvedor web, desenvolvedor criativo, portfólio dev, desenvolvimento frontend, desenvolvimento backend, full stack developer, programador web, projetos de tecnologia, design e tecnologia, desenvolvimento de software, aplicações web modernas, inovação digital, programação profissional, web developer brasil"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Luciano Alves | Software Engineer</title>
+
+    <link rel="icon" href="/icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preload" href={globals} as="style" />
+    <link rel="stylesheet" href={globals} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
