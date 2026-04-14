@@ -226,16 +226,50 @@ canvas {
   width: 10px;
 }
 
+.os-scrollbar.os-theme-portfolio {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.os-scrollbar.os-theme-portfolio:hover,
+.os-host[data-scroll-active='true'] .os-scrollbar.os-theme-portfolio,
+.os-host[data-scroll-active='true'] .os-scrollbar.os-theme-portfolio,
+[data-scrollable][data-scroll-active='true'] .os-scrollbar.os-theme-portfolio,
+.os-scrollbar.os-theme-portfolio.os-scrollbar-interaction {
+  opacity: 1;
+}
+
 .os-scrollbar.os-theme-portfolio .os-scrollbar-track {
   border-radius: 999px;
-  opacity: 1;
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease;
 }
 
 .os-scrollbar.os-theme-portfolio .os-scrollbar-handle {
   min-height: 56px;
   border-radius: 999px;
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease;
+}
+
+.os-scrollbar.os-theme-portfolio:hover .os-scrollbar-track,
+[data-scrollable][data-scroll-active='true']
+  .os-scrollbar.os-theme-portfolio
+  .os-scrollbar-track,
+.os-scrollbar.os-theme-portfolio.os-scrollbar-interaction .os-scrollbar-track {
   opacity: 1;
-  transition: background-color 180ms ease;
+}
+
+.os-scrollbar.os-theme-portfolio:hover .os-scrollbar-handle,
+[data-scrollable][data-scroll-active='true']
+  .os-scrollbar.os-theme-portfolio
+  .os-scrollbar-handle,
+.os-scrollbar.os-theme-portfolio.os-scrollbar-interaction .os-scrollbar-handle {
+  opacity: 1;
 }
 
 .os-scrollbar.os-theme-portfolio:hover .os-scrollbar-handle {

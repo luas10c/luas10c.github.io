@@ -24,9 +24,19 @@ const { class: className, ...rest } = Astro.props
     if (!(element instanceof HTMLElement)) continue
     if (element.dataset.osInitialized === 'true') continue
 
+    let scrollHideTimeout = 0
+
+    const showScrollbarWhileScrolling = () => {
+      element.dataset.scrollActive = 'true'
+      window.clearTimeout(scrollHideTimeout)
+      scrollHideTimeout = window.setTimeout(() => {
+        element.dataset.scrollActive = 'false'
+      }, 400)
+    }
+
     OverlayScrollbars(element, {
       scrollbars: {
-        autoHide: 'scroll',
+        autoHide: 'move',
         autoHideDelay: 400,
         theme: 'os-theme-portfolio',
         clickScroll: true,
@@ -36,6 +46,14 @@ const { class: className, ...rest } = Astro.props
         x: 'hidden',
         y: 'scroll'
       }
+    })
+
+    element.dataset.scrollActive = 'false'
+    element.addEventListener('scroll', showScrollbarWhileScrolling, {
+      passive: true
+    })
+    element.addEventListener('wheel', showScrollbarWhileScrolling, {
+      passive: true
     })
 
     element.dataset.osInitialized = 'true'
