@@ -1,18 +1,45 @@
 ---
-import { tv } from 'tailwind-variants'
-import type { HTMLAttributes } from 'astro/types'
-
+import Slot from '#/components/slot.astro'
 import { cn } from '#/utils/cn'
 
-const variants = tv({
-  base: 'cursor-pointer bg-woodsmoke-900 hover:bg-woodsmoke-800 rounded flex items-center justify-center transition-colors',
-  variants: {}
-})
+type Variant = 'primary' | 'secondary' | 'ghost'
 
-interface Props extends HTMLAttributes<'button'> {}
+const {
+  asChild = false,
+  variant = 'secondary',
+  class: className,
+  ...rest
+} = Astro.props as {
+  href?: string
+  asChild?: boolean
+  variant?: Variant
+  class?: string
+  [key: string]: unknown
+}
 
-const {  class: className, ...rest } = Astro.props
+const variants: Record<Variant, string> = {
+  primary:
+    'bg-midnight-400 text-midnight-900 hover:bg-midnight-300 border-transparent',
+  secondary:
+    'border-[var(--border-2)] bg-[var(--stack-chip-bg)] text-[var(--inline-highlight)] hover:border-[var(--stack-chip-border-hover)] hover:bg-[var(--stack-chip-bg-hover)] hover:text-[var(--page-fg)]',
+  ghost:
+    'border-transparent bg-transparent text-[var(--muted-3)] hover:bg-[var(--stack-chip-bg-hover)] hover:text-[var(--page-fg)]'
+}
+const classes = cn(
+  'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] tracking-[0.04em] transition-[border-color,background-color,color,transform] duration-200',
+  variants[variant],
+  className
+)
 ---
-<button type="button" class={cn(variants(), className)} {...rest}>
-  <slot />
-</button>
+
+{
+  asChild ? (
+    <Slot class={classes} {...rest}>
+      <slot />
+    </Slot>
+  ) : (
+    <button class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

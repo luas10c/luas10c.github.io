@@ -1,22 +1,63 @@
 ---
 import globals from './globals.css?url'
+
+const siteTitle = 'Luciano Alves | Software Engineer'
+const siteDescription =
+  'I turn ideas into memorable digital experiences. I am a software engineer focused on building efficient, scalable, and visually refined products that combine modern technology with thoughtful design.'
+const siteUrl = 'https://luas10c.github.io/'
+const ogImage = `${siteUrl}og.png`
+
+const themeInitScript = `(function () {
+  const storageKey = 'theme-preference';
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function applyTheme(theme) {
+    const resolved = theme === 'system' ? (media.matches ? 'dark' : 'light') : theme;
+    document.documentElement.dataset.theme = resolved;
+    document.documentElement.dataset.userTheme = theme;
+    document.documentElement.classList.toggle('dark', resolved === 'dark');
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme, resolved } }));
+  }
+
+  const storedTheme = localStorage.getItem(storageKey) || 'dark';
+  applyTheme(storedTheme);
+
+  media.addEventListener('change', function () {
+    if ((localStorage.getItem(storageKey) || 'dark') === 'system') {
+      applyTheme('system');
+    }
+  });
+
+  window.__setPreferredTheme = function (theme) {
+    localStorage.setItem(storageKey, theme);
+    applyTheme(theme);
+  };
+})();`
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Transformo ideias em experiências digitais memoráveis. Sou um desenvolvedor apaixonado por inovação, especializado em criar soluções que combinam tecnologia de ponta com design inteligente. Meu foco é desenvolver produtos eficientes, escaláveis e visualmente impactantes, sempre buscando entregar valor real aos usuários e aos negócios."
-    />
+    <meta name="description" content={siteDescription} />
     <meta
       name="keywords"
-      content="desenvolvedor web, desenvolvedor criativo, portfólio dev, desenvolvimento frontend, desenvolvimento backend, full stack developer, programador web, projetos de tecnologia, design e tecnologia, desenvolvimento de software, aplicações web modernas, inovação digital, programação profissional, web developer brasil"
+      content="software engineer, web developer, frontend architecture, backend services, full-stack developer, developer portfolio, modern web applications, scalable systems, UI engineering, developer experience"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Luciano Alves" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={siteDescription} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={siteDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
-    <title>Luciano Alves | Software Engineer</title>
+    <title>{siteTitle}</title>
 
     <link rel="icon" href="/icon.png" />
 
@@ -26,6 +67,8 @@ import globals from './globals.css?url'
       href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+
+    <script is:inline set:html={themeInitScript} />
 
     <link rel="preload" href={globals} as="style" />
     <link rel="stylesheet" href={globals} />

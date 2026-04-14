@@ -1,8 +1,67 @@
 ---
 import MainLayout from '#/layouts/main.astro'
+import BackgroundCanvas from '#/components/background-canvas.astro'
+import Button from '#/components/button.astro'
+import ThemeSwitcher from '#/components/theme-switcher.astro'
 ---
+
 <MainLayout>
-  <section class="flex items-center justify-center min-h-screen">
-    <span class="font-medium">404 - Not Found</span>
-  </section>
+  <BackgroundCanvas />
+  <ThemeSwitcher />
+
+  <main
+    class="relative z-10 flex min-h-screen items-center justify-center px-5 py-10 sm:px-8">
+    <section
+      class="mx-auto flex max-w-[720px] flex-col items-center text-center">
+      <div
+        class="relative mb-8 flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+        <div
+          class="absolute inset-0 rounded-full border border-[var(--border-2)]/80">
+        </div>
+        <div
+          class="absolute inset-4 rounded-full border border-[var(--border-1)]/70">
+        </div>
+        <div class="animate-space-orbit absolute h-full w-full">
+          <span
+            class="absolute top-2 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-[var(--inline-highlight)]/80"
+          ></span>
+        </div>
+        <div
+          class="animate-space-drift rounded-[18px] border border-[var(--border-2)] bg-[var(--stack-chip-bg)] px-5 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.08)] backdrop-blur-sm">
+          <div
+            class="font-mono text-[13px] tracking-[0.24em] text-[var(--muted-2)] uppercase">
+            404
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="mb-3 font-mono text-[11px] tracking-[0.14em] text-[var(--muted-5)] uppercase">
+        Lost in space
+      </div>
+
+      <h1
+        class="max-w-[10ch] font-serif text-[clamp(42px,10vw,88px)] leading-[0.95] tracking-[-0.04em] text-[var(--page-fg)]">
+        Resource not found.
+      </h1>
+
+      <p
+        class="mt-5 max-w-[48ch] text-[14px] leading-[1.8] font-light text-[var(--muted-2)] sm:text-[15px]">
+        The page you were looking for drifted out of orbit, never existed, or
+        was moved somewhere else.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Button asChild variant="secondary">
+          <a href="/">Return home</a>
+        </Button>
+        <Button asChild variant="primary">
+          <a href="https://github.com/luas10c" target="_blank" rel="noreferrer">
+            Explore GitHub
+            <span class="text-[10px] text-[var(--support-cta-fg)]/70">↗</span>
+          </a>
+        </Button>
+      </div>
+    </section>
+  </main>
 </MainLayout>

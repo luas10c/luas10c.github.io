@@ -1,0 +1,73 @@
+---
+import Sun from '#/assets/sun.svg'
+import Moon from '#/assets/moon.svg'
+import Monitor from '#/assets/monitor.svg'
+
+const options = [
+  { value: 'light', label: 'Light', Icon: Sun },
+  { value: 'dark', label: 'Dark', Icon: Moon },
+  { value: 'system', label: 'System', Icon: Monitor }
+] as const
+---
+
+<div class="fixed top-5 right-5 z-20 sm:top-6 sm:right-6">
+  <div
+    class="flex items-center gap-1 rounded-full border border-[var(--switcher-border)] bg-[var(--switcher-bg)] p-1 shadow-[0_8px_30px_rgba(0,0,0,0.16)] backdrop-blur-md">
+    {
+      options.map(({ value, label, Icon }) => (
+        <button
+          type="button"
+          data-theme-value={value}
+          aria-label={`Activate ${label.toLowerCase()} theme`}
+          class="flex size-8 items-center justify-center rounded-full text-[var(--switcher-fg)] transition-[background-color,color] duration-200 hover:text-[var(--switcher-active-fg)]">
+          <Icon class="size-4" />
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import { animate, press } from 'motion'
+
+  const buttons = Array.from(document.querySelectorAll('[data-theme-value]'))
+
+  function syncButtons() {
+    const activeTheme = document.documentElement.dataset.userTheme || 'dark'
+
+    for (const button of buttons) {
+      if (!(button instanceof HTMLButtonElement)) continue
+      const active = button.dataset.themeValue === activeTheme
+      button.setAttribute('aria-pressed', String(active))
+      button.style.backgroundColor = active
+        ? 'var(--switcher-active-bg)'
+        : 'transparent'
+      button.style.color = active
+        ? 'var(--switcher-active-fg)'
+        : 'var(--switcher-fg)'
+    }
+  }
+
+  for (const button of buttons) {
+    if (!(button instanceof HTMLButtonElement)) continue
+
+    press(button, (element) => {
+      animate(element, { scale: 0.92 }, { duration: 0.12 })
+
+      return () => animate(element, { scale: 1 }, { duration: 0.18 })
+    })
+
+    button.addEventListener('click', () => {
+      const setPreferredTheme = Reflect.get(window, '__setPreferredTheme')
+
+      if (typeof setPreferredTheme === 'function') {
+        setPreferredTheme(button.dataset.themeValue || 'dark')
+      }
+
+      syncButtons()
+    })
+  }
+
+  syncButtons()
+  window.addEventListener('themechange', syncButtons)
+</script>

@@ -1,0 +1,54 @@
+---
+import { cn } from '#/utils/cn'
+
+const { class: className, ...rest } = Astro.props as {
+  class?: string
+  [key: string]: unknown
+}
+
+function escapeAttribute(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+}
+
+function serializeAttributes(attributes: Record<string, unknown>) {
+  return Object.entries(attributes)
+    .flatMap(([key, value]) => {
+      if (value === false || value == null) return []
+      if (value === true) return [key]
+
+      return [`${key}="${escapeAttribute(String(value))}"`]
+    })
+    .join(' ')
+}
+
+function mergePropsIntoChild(html: string) {
+  const trimmedHtml = html.trim()
+  const match = trimmedHtml.match(/^<([\w:-]+)([^>]*)>/)
+
+  if (!match) return trimmedHtml
+
+  const [, tagName, rawAttributes] = match
+  const existingClassMatch = rawAttributes.match(/\sclass=(['"])(.*?)\1/)
+  const existingClassName = existingClassMatch?.[2] ?? ''
+  const mergedClassName = cn(existingClassName, className)
+  const attributesWithoutClass = rawAttributes.replace(
+    /\sclass=(['"])(.*?)\1/,
+    ''
+  )
+  const serializedAttributes = serializeAttributes(rest)
+  const extraAttributes = [serializedAttributes, `class="${escapeAttribute(mergedClassName)}"`]
+    .filter(Boolean)
+    .join(' ')
+  const replacement = `<${tagName}${attributesWithoutClass}${extraAttributes ? ` ${extraAttributes}` : ''}>`
+
+  return trimmedHtml.replace(/^<([\w:-]+)([^>]*)>/, replacement)
+}
+
+const renderedChild = mergePropsIntoChild(await Astro.slots.render('default'))
+---
+
+<Fragment set:html={renderedChild} />

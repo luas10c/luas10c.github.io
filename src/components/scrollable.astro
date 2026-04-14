@@ -1,0 +1,43 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+import { cn } from '#/utils/cn'
+
+type Props = HTMLAttributes<'div'>
+
+const { class: className, ...rest } = Astro.props
+---
+
+<div
+  data-scrollable
+  class={cn('h-screen overflow-auto overscroll-none', className)}
+  {...rest}>
+  <slot />
+</div>
+
+<script>
+  import { OverlayScrollbars } from 'overlayscrollbars'
+
+  const elements = Array.from(document.querySelectorAll('[data-scrollable]'))
+
+  for (const element of elements) {
+    if (!(element instanceof HTMLElement)) continue
+    if (element.dataset.osInitialized === 'true') continue
+
+    OverlayScrollbars(element, {
+      scrollbars: {
+        autoHide: 'scroll',
+        autoHideDelay: 400,
+        theme: 'os-theme-portfolio',
+        clickScroll: true,
+        pointers: ['mouse', 'touch', 'pen']
+      },
+      overflow: {
+        x: 'hidden',
+        y: 'scroll'
+      }
+    })
+
+    element.dataset.osInitialized = 'true'
+  }
+</script>

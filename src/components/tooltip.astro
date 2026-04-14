@@ -1,0 +1,98 @@
+---
+interface Props {
+  label: string
+  icon: string
+  iconClass?: string
+}
+
+const {
+  label,
+  icon,
+  iconClass = 'h-8 w-8 [&_svg]:h-8 [&_svg]:w-8'
+} = Astro.props
+---
+
+<div class="relative inline-flex" data-tooltip-root>
+  <button
+    type="button"
+    aria-label={label}
+    class="group inline-flex h-12 w-12 items-center justify-center rounded-md bg-transparent text-[var(--stack-chip-fg)] transition-[color,background-color,transform] duration-200 hover:bg-[var(--stack-chip-bg-hover)] hover:text-[var(--stack-chip-fg-hover)] focus-visible:bg-[var(--stack-chip-bg-hover)] focus-visible:text-[var(--stack-chip-fg-hover)] focus-visible:outline-none"
+    data-tooltip-trigger>
+    <span
+      class:list={[iconClass, '[&_svg]:fill-current [&_svg]:stroke-current']}
+      set:html={icon}
+    />
+  </button>
+
+  <div
+    role="tooltip"
+    class="pointer-events-none absolute top-full left-1/2 z-20 mt-2 -translate-x-1/2 rounded-[6px] border border-[var(--tooltip-border)] bg-[var(--tooltip-bg)] px-2.5 py-1.5 font-mono text-[10px] tracking-[0.04em] whitespace-nowrap text-[var(--tooltip-fg)] opacity-0 shadow-[0_14px_40px_rgba(0,0,0,0.22)] backdrop-blur-md"
+    data-tooltip-bubble>
+    {label}
+  </div>
+</div>
+
+<script>
+  import { animate } from 'motion'
+
+  const roots = Array.from(document.querySelectorAll('[data-tooltip-root]'))
+
+  for (const root of roots) {
+    if (root instanceof HTMLElement === false) continue
+    if (root.dataset.tooltipReady === 'true') continue
+
+    const trigger = root.querySelector('[data-tooltip-trigger]')
+    const bubble = root.querySelector('[data-tooltip-bubble]')
+
+    if (!(trigger instanceof HTMLElement) || !(bubble instanceof HTMLElement)) {
+      continue
+    }
+
+    let animation: ReturnType<typeof animate> | undefined
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    const show = () => {
+      if (prefersReducedMotion) {
+        bubble.style.opacity = '1'
+        bubble.style.transform = 'translateX(-50%) translateY(0px)'
+        bubble.style.filter = 'blur(0px)'
+        return
+      }
+
+      animation?.stop()
+      animation = animate(
+        bubble,
+        { opacity: 1, y: 0, filter: 'blur(0px)' },
+        { duration: 0.18, ease: [0.22, 1, 0.36, 1] }
+      )
+    }
+
+    const hide = () => {
+      if (prefersReducedMotion) {
+        bubble.style.opacity = '0'
+        bubble.style.transform = 'translateX(-50%) translateY(-6px)'
+        bubble.style.filter = 'blur(4px)'
+        return
+      }
+
+      animation?.stop()
+      animation = animate(
+        bubble,
+        { opacity: 0, y: -6, filter: 'blur(4px)' },
+        { duration: 0.14, ease: 'easeOut' }
+      )
+    }
+
+    bubble.style.transform = 'translateX(-50%) translateY(-6px)'
+    bubble.style.filter = 'blur(4px)'
+
+    trigger.addEventListener('mouseenter', show)
+    trigger.addEventListener('mouseleave', hide)
+    trigger.addEventListener('focus', show)
+    trigger.addEventListener('blur', hide)
+
+    root.dataset.tooltipReady = 'true'
+  }
+</script>
