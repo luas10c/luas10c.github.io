@@ -39,6 +39,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     needs: build
     env:
       PUBLIC_GITHUB_USERNAME: luas10c
