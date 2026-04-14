@@ -37,10 +37,5 @@ export default defineConfig([
     rules: {
       ...prettier.configs.recommended.rules
     }
-  },
-  {
-    rules: {
-      'astro/missing-client-only-directive-value': 'error'
-    }
   }
 ])
