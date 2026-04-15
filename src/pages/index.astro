@@ -59,11 +59,14 @@ const stackItems: StackItem[] = [
 
 <MainLayout>
   <BackgroundCanvas />
-  <ThemeSwitcher />
 
   <Scrollable class="relative z-10">
+    <div class="px-5 pt-4 sm:px-8">
+      <ThemeSwitcher />
+    </div>
+
     <main
-      class="mx-auto max-w-[992px] px-5 pt-10 pb-20 sm:px-8 sm:pt-16 sm:pb-28">
+      class="mx-auto max-w-[992px] px-5 pt-6 pb-20 sm:px-8 sm:pt-10 sm:pb-28">
       <section
         data-animate="0.1"
         class="mb-16 flex items-center justify-between gap-5">
