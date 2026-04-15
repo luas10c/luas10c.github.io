@@ -52,7 +52,7 @@
     let shootingStarColor = '#d8d2c7'
     let shootingStarOpacity = 0.78
 
-    function getThemeValue(name, fallback) {
+    function getThemeValue(name: string, fallback: string) {
       const value = getComputedStyle(document.documentElement)
         .getPropertyValue(name)
         .trim()
@@ -181,12 +181,12 @@
     let nextStarAt = performance.now() + 5000 + Math.random() * 7000
     let activeStar = null
 
-    function onMouseMove(event) {
+    function onMouseMove(event: MouseEvent) {
       mouseX = (event.clientX / window.innerWidth - 0.5) * 80
       mouseY = -(event.clientY / window.innerHeight - 0.5) * 60
     }
 
-    function onTouchMove(event) {
+    function onTouchMove(event: TouchEvent) {
       const touch = event.touches[0]
       if (!touch) return
 
@@ -194,7 +194,7 @@
       mouseY = -(touch.clientY / window.innerHeight - 0.5) * 30
     }
 
-    function spawnShootingStar(now) {
+    function spawnShootingStar(now: number) {
       const startX = (Math.random() - 0.1) * 90
       const startY = 24 + Math.random() * 26
       const startZ = -10 + Math.random() * 20
