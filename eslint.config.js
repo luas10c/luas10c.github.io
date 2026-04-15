@@ -7,13 +7,10 @@ import ts from 'typescript-eslint'
 
 import prettier from 'eslint-plugin-prettier'
 
-import astro from 'eslint-plugin-astro'
-
 export default defineConfig([
-  globalIgnores(['node_modules', 'dist', 'coverage', '.astro']),
+  globalIgnores(['node_modules', 'dist', 'coverage', '.astro', '**/*.astro']),
   js.configs.recommended,
   ts.configs.recommended,
-  astro.configs.recommended,
   {
     name: 'prettier/recommended',
     files: ['**/*.{js,jsx,ts,tsx}'],
