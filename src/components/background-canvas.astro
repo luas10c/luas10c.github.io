@@ -5,31 +5,40 @@
 <canvas
   id="bg-stars"
   aria-hidden="true"
-  class="pointer-events-none fixed inset-0 z-[1] h-full w-full"></canvas>
+  class="pointer-events-none fixed inset-0 z-1 h-full w-full"></canvas>
 
-<script
-  is:inline
-  src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
-></script>
+<script>
+  import * as THREE from 'three'
 
-<script is:inline>
-  const canvas = document.getElementById('bg')
-  const starCanvas = document.getElementById('bg-stars')
+  function initBackgroundCanvas() {
+    const canvas = document.getElementById('bg')
+    const starCanvas = document.getElementById('bg-stars')
 
-  if (canvas && starCanvas instanceof HTMLCanvasElement && window.THREE) {
-    const renderer = new window.THREE.WebGLRenderer({
-      canvas,
+    if (
+      !(canvas instanceof HTMLCanvasElement) ||
+      !(starCanvas instanceof HTMLCanvasElement)
+    ) {
+      return
+    }
+
+    const backgroundCanvas = canvas
+    const shootingStarCanvas = starCanvas
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: backgroundCanvas,
       antialias: true,
       alpha: false
     })
-    const starContext = starCanvas.getContext('2d')
+    const context = shootingStarCanvas.getContext('2d')
 
-    if (!starContext) {
+    if (!context) {
       throw new Error('Unable to initialize shooting star canvas')
     }
 
-    const scene = new window.THREE.Scene()
-    const camera = new window.THREE.PerspectiveCamera(
+    const starContext = context
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(
       60,
       window.innerWidth / window.innerHeight,
       0.1,
@@ -67,8 +76,8 @@
       )
 
       renderer.setClearColor(background, 1)
-      material.uniforms.uColor.value.setStyle(particleColor)
-      material.uniforms.uOpacity.value = particleOpacity
+      material.color.setStyle(particleColor)
+      material.opacity = particleOpacity
       lineMaterial.color.setStyle(lineColor)
       lineMaterial.opacity = lineOpacity
     }
@@ -80,86 +89,44 @@
       camera.updateProjectionMatrix()
 
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
-      starCanvas.width = Math.floor(window.innerWidth * ratio)
-      starCanvas.height = Math.floor(window.innerHeight * ratio)
-      starCanvas.style.width = `${window.innerWidth}px`
-      starCanvas.style.height = `${window.innerHeight}px`
+      shootingStarCanvas.width = Math.floor(window.innerWidth * ratio)
+      shootingStarCanvas.height = Math.floor(window.innerHeight * ratio)
+      shootingStarCanvas.style.width = `${window.innerWidth}px`
+      shootingStarCanvas.style.height = `${window.innerHeight}px`
       starContext.setTransform(ratio, 0, 0, ratio, 0, 0)
     }
 
     const count = 200
-    const geometry = new window.THREE.BufferGeometry()
+    const geometry = new THREE.BufferGeometry()
+    const basePositions = new Float32Array(count * 3)
     const positions = new Float32Array(count * 3)
-    const sizes = new Float32Array(count)
     const particleDrift = new Float32Array(count * 2)
 
     for (let i = 0; i < count; i += 1) {
-      positions[i * 3] = (Math.random() - 0.5) * 130
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 90
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 70
-      sizes[i] = Math.random() * 0.9 + 0.2
+      basePositions[i * 3] = (Math.random() - 0.5) * 130
+      basePositions[i * 3 + 1] = (Math.random() - 0.5) * 90
+      basePositions[i * 3 + 2] = (Math.random() - 0.5) * 70
+      positions[i * 3] = basePositions[i * 3]
+      positions[i * 3 + 1] = basePositions[i * 3 + 1]
+      positions[i * 3 + 2] = basePositions[i * 3 + 2]
       particleDrift[i * 2] = Math.random() * 6.28318
       particleDrift[i * 2 + 1] = Math.random() * 6.28318
     }
 
-    geometry.setAttribute(
-      'position',
-      new window.THREE.BufferAttribute(positions, 3)
-    )
-    geometry.setAttribute('size', new window.THREE.BufferAttribute(sizes, 1))
-    geometry.setAttribute(
-      'drift',
-      new window.THREE.BufferAttribute(particleDrift, 2)
-    )
-
-    const material = new window.THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 0 },
-        uMouse: { value: new window.THREE.Vector2(0, 0) },
-        uColor: { value: new window.THREE.Color('#2e2e29') },
-        uOpacity: { value: 0.65 }
-      },
-      vertexShader: `
-        attribute float size;
-        attribute vec2 drift;
-        uniform float uTime;
-        uniform vec2 uMouse;
-
-        void main() {
-          vec3 p = position;
-          p.x += sin(uTime * 0.42 + position.z * 0.05 + drift.x) * 1.15;
-          p.y += cos(uTime * 0.28 + position.x * 0.05 + drift.y) * 0.95;
-          p.z += sin(uTime * 0.22 + drift.x + drift.y) * 1.3;
-
-          float depth = (position.z + 35.0) / 70.0;
-          p.x += uMouse.x * 0.018 * depth;
-          p.y += uMouse.y * 0.012 * depth;
-
-          vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          gl_Position = projectionMatrix * mv;
-          gl_PointSize = size * (300.0 / -mv.z);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uColor;
-        uniform float uOpacity;
-
-        void main() {
-          float d = length(gl_PointCoord - vec2(0.5));
-          if (d > 0.5) discard;
-
-          float a = 1.0 - smoothstep(0.3, 0.5, d);
-          gl_FragColor = vec4(uColor, a * uOpacity);
-        }
-      `,
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    const material = new THREE.PointsMaterial({
+      color: '#2e2e29',
+      opacity: 0.65,
+      size: 0.22,
+      sizeAttenuation: true,
       transparent: true,
       depthWrite: false
     })
 
-    const points = new window.THREE.Points(geometry, material)
+    const points = new THREE.Points(geometry, material)
     scene.add(points)
 
-    const lineMaterial = new window.THREE.LineBasicMaterial({
+    const lineMaterial = new THREE.LineBasicMaterial({
       color: '#1a1a18',
       transparent: true,
       opacity: 0.35
@@ -168,7 +135,7 @@
     const lineEntries = []
 
     for (let i = 0; i < 35; i += 1) {
-      const lineGeometry = new window.THREE.BufferGeometry()
+      const lineGeometry = new THREE.BufferGeometry()
       const linePositions = new Float32Array(6)
       const originX = (Math.random() - 0.5) * 120
       const originY = (Math.random() - 0.5) * 80
@@ -186,10 +153,10 @@
 
       lineGeometry.setAttribute(
         'position',
-        new window.THREE.BufferAttribute(linePositions, 3)
+        new THREE.BufferAttribute(linePositions, 3)
       )
 
-      const line = new window.THREE.Line(lineGeometry, lineMaterial)
+      const line = new THREE.Line(lineGeometry, lineMaterial)
       scene.add(line)
       lineEntries.push({
         geometry: lineGeometry,
@@ -238,8 +205,8 @@
       activeStar = {
         startedAt: now,
         duration: 1100 + Math.random() * 500,
-        start: new window.THREE.Vector3(startX, startY, startZ),
-        end: new window.THREE.Vector3(startX + dx, startY + dy, startZ),
+        start: new THREE.Vector3(startX, startY, startZ),
+        end: new THREE.Vector3(startX + dx, startY + dy, startZ),
         length
       }
 
@@ -307,14 +274,38 @@
       frame = requestAnimationFrame(render)
       const now = performance.now()
       time += prefersReducedMotion ? 0.001 : 0.005
-      material.uniforms.uTime.value = time
 
       targetX += (mouseX - targetX) * 0.04
       targetY += (mouseY - targetY) * 0.04
-      material.uniforms.uMouse.value.set(targetX, targetY)
+      const motionFactor = prefersReducedMotion ? 0.25 : 1
+
+      for (let i = 0; i < count; i += 1) {
+        const xIndex = i * 3
+        const yIndex = xIndex + 1
+        const zIndex = xIndex + 2
+        const driftIndex = i * 2
+        const baseX = basePositions[xIndex]
+        const baseY = basePositions[yIndex]
+        const baseZ = basePositions[zIndex]
+        const driftX = particleDrift[driftIndex]
+        const driftY = particleDrift[driftIndex + 1]
+        const depth = (baseZ + 35) / 70
+
+        positions[xIndex] =
+          baseX +
+          Math.sin(time * 0.42 + baseZ * 0.05 + driftX) * 1.15 * motionFactor +
+          targetX * 0.018 * depth
+        positions[yIndex] =
+          baseY +
+          Math.cos(time * 0.28 + baseX * 0.05 + driftY) * 0.95 * motionFactor +
+          targetY * 0.012 * depth
+        positions[zIndex] =
+          baseZ + Math.sin(time * 0.22 + driftX + driftY) * 1.3 * motionFactor
+      }
+
+      geometry.attributes.position.needsUpdate = true
 
       for (const entry of lineEntries) {
-        const motionFactor = prefersReducedMotion ? 0.25 : 1
         const swayX = Math.sin(time * 0.55 + entry.phaseX) * 2.2 * motionFactor
         const swayY = Math.cos(time * 0.42 + entry.phaseY) * 1.8 * motionFactor
         const swayZ =
@@ -374,4 +365,6 @@
     window.addEventListener('themechange', syncTheme)
     window.addEventListener('pagehide', cleanup, { once: true })
   }
+
+  initBackgroundCanvas()
 </script>
