@@ -1,7 +1,7 @@
 export const profile = {
   name: 'Luciano Alves',
   handle: 'luas10c',
-  avatar: 'https://avatars.githubusercontent.com/u/66514698?v=4',
+  avatar: 'https://avatars.githubusercontent.com/u/66514698?v=4&s=128',
   location: 'Sao Paulo, Brazil',
   timezone: 'UTC -03:00',
   hero: {

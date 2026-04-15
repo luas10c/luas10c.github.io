@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets'
+
 import MainLayout from '#/layouts/main.astro'
 
 import BackgroundCanvas from '#/components/background-canvas.astro'
@@ -81,7 +83,7 @@ const stackItems: StackItem[] = [
           </div>
         </div>
 
-        <img
+        <Image
           class="h-16 w-16 shrink-0 rounded-full border border-[var(--avatar-border)] object-cover"
           src={profile.avatar}
           alt={profile.name}
