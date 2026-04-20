@@ -132,7 +132,20 @@
       opacity: 0.35
     })
 
-    const lineEntries = []
+    type LineEntry = {
+      geometry: THREE.BufferGeometry
+      positions: Float32Array
+      originX: number
+      originY: number
+      originZ: number
+      offsetX: number
+      offsetY: number
+      offsetZ: number
+      phaseX: number
+      phaseY: number
+    }
+
+    const lineEntries: LineEntry[] = []
 
     for (let i = 0; i < 35; i += 1) {
       const lineGeometry = new THREE.BufferGeometry()
@@ -179,7 +192,16 @@
     let time = 0
     let frame = 0
     let nextStarAt = performance.now() + 5000 + Math.random() * 7000
-    let activeStar = null
+    type StarEntry = THREE.Mesh
+
+    let activeStar: StarEntry | null = null
+    let starData: {
+      start: THREE.Vector3
+      end: THREE.Vector3
+      length: number
+      duration: number
+      startedAt: number
+    } | null = null
 
     function onMouseMove(event: MouseEvent) {
       mouseX = (event.clientX / window.innerWidth - 0.5) * 80
@@ -202,7 +224,7 @@
       const dx = 18 + Math.random() * 12
       const dy = -(14 + Math.random() * 8)
 
-      activeStar = {
+      starData = {
         startedAt: now,
         duration: 1100 + Math.random() * 500,
         start: new THREE.Vector3(startX, startY, startZ),
@@ -214,23 +236,23 @@
     }
 
     function drawShootingStar() {
-      if (!activeStar) return
+      if (!starData) return
 
-      const elapsed = performance.now() - activeStar.startedAt
-      const progress = elapsed / activeStar.duration
+      const elapsed = performance.now() - starData.startedAt
+      const progress = elapsed / starData.duration
 
       if (progress >= 1) {
-        activeStar = null
+        starData = null
         return
       }
 
       const eased = 1 - Math.pow(1 - progress, 3)
-      const head = activeStar.start.clone().lerp(activeStar.end, eased)
-      const direction = activeStar.end
+      const head = starData.start.clone().lerp(starData.end, eased)
+      const direction = starData.end
         .clone()
-        .sub(activeStar.start)
+        .sub(starData.start)
         .normalize()
-        .multiplyScalar(activeStar.length * (0.4 + (1 - progress) * 0.9))
+        .multiplyScalar(starData.length * (0.4 + (1 - progress) * 0.9))
       const tail = head.clone().sub(direction)
       const projectedHead = head.clone().project(camera)
       const projectedTail = tail.clone().project(camera)

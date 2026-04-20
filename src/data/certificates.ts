@@ -1,4 +1,12 @@
-export const certificates = [
+export type Certificate = {
+  title: string
+  issuer: string
+  date: Date
+  url?: string
+  credentialId?: string
+}
+
+export const certificates: Certificate[] = [
   {
     title: 'DDD no Node.js',
     issuer: 'Rocketseat',
@@ -27,4 +35,4 @@ export const certificates = [
     url: 'https://www.udemy.com/certificate/UC-2a47fd13-b4c1-4b4c-989f-53d1f72abe27',
     credentialId: 'UC-2a47fd13-b4c1-4b4c-989f-53d1f72abe27'
   }
-] as const
+]
