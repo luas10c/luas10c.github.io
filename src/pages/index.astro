@@ -11,6 +11,7 @@ import SectionLabel from '#/components/portfolio-section-label.astro'
 import ThemeSwitcher from '#/components/theme-switcher.astro'
 import Tooltip from '#/components/tooltip.astro'
 import { builds, links, profile, stats, support } from '#/data/portfolio'
+import { certificates } from '#/data/certificates'
 
 import typescript from '#/assets/typescript.svg?raw'
 import react from '#/assets/react.svg?raw'
@@ -190,6 +191,38 @@ const stackItems: StackItem[] = [
               </span>
             </div>
           ))
+        }
+      </section>
+
+      <PageDivider />
+
+      <section data-animate="0.75" class="mb-12">
+        <SectionLabel text="certificates" />
+        {
+          certificates
+            .sort((a, b) => b.date.getTime() - a.date.getTime())
+            .map((cert) => (
+              <div class="flex items-baseline gap-6 border-b border-[var(--border-4)] py-3">
+                <span class="min-w-7 shrink-0 font-mono text-[10px] tracking-[0.04em] text-[var(--muted-7)]">
+                  {cert.date.getFullYear()}
+                </span>
+                <span class="text-[13px] leading-[1.6] font-light text-[var(--muted-3)]">
+                  <strong class="font-medium text-[var(--strong-highlight)]">
+                    {cert.title}
+                  </strong>{' '}
+                  — {cert.issuer}
+                  {cert.url && (
+                    <a
+                      href={cert.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="ml-1 text-[var(--muted-4)] hover:text-[var(--muted-2)]">
+                      ↗
+                    </a>
+                  )}
+                </span>
+              </div>
+            ))
         }
       </section>
 
