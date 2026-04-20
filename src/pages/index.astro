@@ -72,14 +72,23 @@ const stackItems: StackItem[] = [
       <section
         data-animate="0.1"
         class="mb-16 flex items-center justify-between gap-5">
-        <div>
+        <div class="flex flex-col">
           <div
             class="text-[13px] font-medium tracking-[0.04em] text-[var(--page-fg)]">
             {profile.name}
           </div>
-          <div
-            class="mt-[3px] font-mono text-[11px] tracking-[0.06em] text-[var(--muted-2)]">
-            {profile.handle}
+          <div class="mt-2 flex flex-wrap gap-3">
+            {
+              links.map((link) => (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-[12px] text-[var(--muted-4)] hover:text-[var(--muted-2)]">
+                  {link.label}
+                </a>
+              ))
+            }
           </div>
         </div>
 
@@ -180,25 +189,6 @@ const stackItems: StackItem[] = [
                 — {item.description}
               </span>
             </div>
-          ))
-        }
-      </section>
-
-      <PageDivider />
-
-      <section data-animate="0.75" class="flex flex-wrap gap-x-8 gap-y-3">
-        <SectionLabel text="find me" fullWidth />
-        {
-          links.map((link) => (
-            <Button
-              asChild
-              variant="ghost"
-              class="gap-[5px] rounded-none border-x-0 border-t-0 border-b border-[var(--border-2)] px-0 py-0 pb-px text-[var(--muted-6)] hover:border-[var(--muted-5)] hover:bg-transparent hover:text-[var(--muted-2)]">
-              <a href={link.href} target="_blank" rel="noreferrer">
-                {link.label}
-                <span class="text-[9px] text-[var(--muted-7)]">↗</span>
-              </a>
-            </Button>
           ))
         }
       </section>
