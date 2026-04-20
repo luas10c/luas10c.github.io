@@ -3,9 +3,10 @@ import globals from './globals.css?url'
 
 const siteTitle = 'Luciano Alves | Software Engineer'
 const siteDescription =
-  'I turn ideas into memorable digital experiences. I am a software engineer focused on building efficient, scalable, and visually refined products that combine modern technology with thoughtful design.'
+  'Full-Stack Software Engineer based in São Paulo, Brazil. Building scalable systems, thoughtful product experiences, and reliable developer tooling. Open to opportunities.'
 const siteUrl = 'https://luas10c.github.io/'
-const ogImage = `${siteUrl}og.png`
+const profileImage = 'https://avatars.githubusercontent.com/u/66514698?v=4&s=400'
+const ogImage = profileImage
 
 const themeInitScript = `(function () {
   const storageKey = 'theme-preference';
@@ -51,11 +52,15 @@ const themeInitScript = `(function () {
     <meta property="og:description" content={siteDescription} />
     <meta property="og:url" content={siteUrl} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Luciano Alves - Software Engineer" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={siteDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Luciano Alves - Software Engineer" />
 
     <title>{siteTitle}</title>
 
